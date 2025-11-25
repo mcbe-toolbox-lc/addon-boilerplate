@@ -1,0 +1,30 @@
+{
+	"editor.defaultFormatter": "esbenp.prettier-vscode",
+	"editor.formatOnSave": true,
+	"editor.insertSpaces": false, // Tab-indent is objectively better for most file types
+	"editor.rulers": [80],
+	"files.eol": "\n",
+	"files.associations": {
+		"package.json": "json",
+		"*.json": "jsonc" // JSONC is JSON but with comments, and Minecraft supports it.
+	},
+	"search.exclude": {
+		"**/node_modules": true,
+		"**/*.code-search": true,
+		"build": true // Exclude build output files from search
+	},
+
+	// PNPM as a package manager for Node.js
+	"npm.packageManager": "pnpm",
+
+	// JSON5 is awesome: https://json5.org/
+	// Highly recommended to install the "Better JSON5" extension
+	"json5.validate.enable": true,
+	"json5.format.enable": false,
+
+	// Override settings for markdown files
+	"[markdown]": {
+		"editor.insertSpaces": true, // Space-indent for markdown
+		"editor.tabSize": 2
+	}
+}
