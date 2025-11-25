@@ -1,0 +1,2 @@
+# Force all text files to have LF endings in the repository
+* text=lf
