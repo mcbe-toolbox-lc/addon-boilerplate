@@ -6,6 +6,10 @@
 		"isolatedModules": true,
 		"skipLibCheck": true,
 
+		// This repository uses an external bundler to emit JavaScript, so the standard tsc
+		// compiler is not required for emitting.
+		"noEmit": true,
+
 		// Strictness
 		"strict": true,
 		"noUncheckedIndexedAccess": true,
