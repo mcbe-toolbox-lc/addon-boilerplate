@@ -64,7 +64,7 @@ This template has a custom build system fully configured and ready to go. 🫡
 Some nice things that happen during a build operation include:
 
 - Compiling (bundling) behavior pack scripts written in JavaScript/TypeScript
-  - If you enable bundling, imported external packages will be included in the bundle
+  - External dependencies can be bundled (except for anything under the `@minecraft/` scope)
 - Converting [JSON5](https://json5.org/) files into plain JSON
 - Generating [texture_list.json](https://wiki.bedrock.dev/concepts/textures-list) in resource pack
 - Creating .mcpack or .mcaddon archive(s)
