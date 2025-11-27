@@ -18,5 +18,6 @@ Details are explained below.
 
 ## Prerequisites
 
-- Node.js (v22 or later)
-- pnpm
+- [Git](https://git-scm.com/install/)
+- [Node.js](https://nodejs.org/) (v22 or later)
+- [pnpm](https://pnpm.io/installation)
