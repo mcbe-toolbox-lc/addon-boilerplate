@@ -7,7 +7,7 @@
 - [Bedrock Wiki](https://wiki.bedrock.dev/)
 - [@minecraft/server npm package](https://www.npmjs.com/package/@minecraft/server)
 
-## Basic directory structure
+## Directory structure explained
 
 - `.vscode/`: Configuration for the [Visual Studio Code](https://code.visualstudio.com/) editor.
 - `scripts/`: Build scripts and task automation scripts. Not behavior pack scripts!
@@ -39,7 +39,7 @@ To install `@minecraft/server-ui@2.0.0` for example:
 pnpm install @minecraft/server-ui@2.0.0 --save-exact
 ```
 
-Don't forget to edit the build script accordingly. 
+Don't forget to edit the build script accordingly.
 
 ## Upgrading a package under the scope `@minecraft`
 
