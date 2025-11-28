@@ -2,19 +2,68 @@
 
 > [!IMPORTANT]
 > This template is intended for development on Windows or Linux.
-> If you are developing on mobile, please look elsewhere.
+> If you're developing on a platform other than those, please look elsewhere.
 
-Feel free to use this template! No credit is required.
+Feel free to use this template! No credit is required. 💝
 
-Key points:
+## Introduction
 
-- 📂 Both the behavior pack and the resource pack reside in the same "project folder"
-- 🛡️ Your project folder can be located outside of the potentially dangerous `com.mojang` folder
-- ⚡ One command to build (compile) the packs and copy them into the `com.mojang` folder
-- ☑️ TypeScript is supported out of the box
-- 📦 Easy integration of external packages through npm
+### The Problem ⚠️
 
-Details are explained below.
+Most add-on developers store their packs like this:
+
+```
+AppData
+└── ...
+    └── com.mojang
+        ├── development_behavior_packs
+        │   ├── addon-x-bp
+        │   ├── addon-y-bp
+        │   └── addon-z-bp
+        └── development_resource_packs
+            ├── addon-x-rp
+            ├── addon-y-rp
+            └── addon-z-rp
+```
+
+Packs of a single add-on are **dispersed and fragmented**.
+The biggest problem is probably that **it makes version control difficult**.
+You can't easily track changes across both packs simultaneously in a single repository.
+
+### The Solution 💡
+
+The solution is to put both packs in a single "project folder" like this:
+
+```
+my-addons
+└── addon-x   <--- The project folder, or we can call it a repository
+    ├── src
+    │   ├── bp
+    │   └── rp
+    └── ... project-specific files ...
+```
+
+This project folder is the single, top-level directory that acts as the **centralized workspace**
+for your add-on. It should be the root of your source code and version control (e.g., Git),
+**containing both the BP and RP** as well as any source code, resources, and build configurations.
+
+### The Solution Implemented 🏗️
+
+**This template implements the solution above.**
+
+Minecraft won't recognize packs outside the default locations, so this template has a custom build
+script that does _some nice things_ and copies each of your packs to where they should be.
+
+Some nice things that happen during a build operation include:
+
+- Compiling (bundling) behavior pack scripts that are written in JavaScript/TypeScript.
+  - Optionally, external dependencies can be bundled together.
+- Converting [JSON5](https://json5.org/) files into plain JSON.
+- Generating [texture_list.json](https://wiki.bedrock.dev/concepts/textures-list) in resource pack.
+- Creating `.mcpack` or `.mcaddon` archive(s).
+
+**It's fully configured.**
+I've been doing this approach for my recent add-ons, and it works great!
 
 ## Prerequisites
 
@@ -23,56 +72,3 @@ Please install these tools on your system before proceeding:
 - [Git](https://git-scm.com/install/)
 - [Node.js](https://nodejs.org/) (v22 or later)
 - [pnpm](https://pnpm.io/installation)
-
-## Key concepts explained
-
-### Project Folder
-
-Most add-on developers store their packs directly in the `development_behavior_packs` (and/or
-`development_resource_packs`) folder inside the `com.mojang` folder.
-
-Packs that belongs to the same project, exist in separate locations and mixed with others.
-Which can be quite inconvenient if:
-
-- You hop between packs a lot - _have you ever opened two code editor windows for one project?_
-- You want to use Git to manage both packs in a single repository
-
-Plus, storing development data in such internal locations is not a very good idea.
-Minecraft might (accidentally) delete your work during an update! 😱
-
-**The "Project Folder" approach can solve this problem.**
-
-The project folder is the single, top-level directory that acts as the centralized workspace for an
-add-on, containing both packs and their source code, resources, and build configurations.
-
-Main benefits include:
-
-- There's no longer a need to open two code editor windows (one for BP and one for RP)
-- Source control with Git is finally practical
-- Integrate external tools through [npm](https://www.npmjs.com/)
-- Isolated from deep hidden locations like the `com.mojang` folder
-
-### Build
-
-_In the world of software development, "build" refers to the process of converting source code and
-assets into a deployable software product or component._
-
-In this case, "build" means doing _some nice things_ and copying each pack from source (project
-folder) to user-defined location(s).
-
-This template has a custom build system fully configured and ready to go. 🫡
-
-Some nice things that happen during a build operation include:
-
-- Compiling (bundling) behavior pack scripts written in JavaScript/TypeScript
-  - External dependencies can be bundled (except for anything under the `@minecraft/` scope)
-- Converting [JSON5](https://json5.org/) files into plain JSON
-- Generating [texture_list.json](https://wiki.bedrock.dev/concepts/textures-list) in resource pack
-- Creating .mcpack or .mcaddon archive(s)
-
-You can also let the build system watch for file changes in the background and re-build when a file
-change is detected in source.
-
-While not storing packs directly in the `com.mojang` folder introduces the need for a build system
-and makes instant syncing impossible, it also opens up opportunities to make your add-on development
-more flexible and enjoyable!
