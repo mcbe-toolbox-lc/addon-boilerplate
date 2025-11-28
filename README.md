@@ -70,9 +70,9 @@ I've been doing this approach for my recent add-ons, and it works great!
 If you understand these, things should be easier to understand:
 
 - Git - [Git Tutorial For Dummies ▶️](https://www.youtube.com/watch?v=mJ-qvsxPHpY)
-- Basic add-on development - [Microsoft Learn](https://learn.microsoft.com/en-us/minecraft/creator/documents/gettingstarted?view=minecraft-bedrock-stable&tabs=Windows10) 🎓
-- JavaScript - [Tutorial by W3Schools](https://www.w3schools.com/js/) 🎓
-- Node.js - [Tutorial by W3Schools](https://www.w3schools.com/nodejs/default.asp) 🎓
+- Basic add-on development - [Bedrock Wiki 🎓](https://wiki.bedrock.dev/guide/introduction)
+- JavaScript - [Tutorial by W3Schools 🎓](https://www.w3schools.com/js/)
+- Node.js - [Tutorial by W3Schools 🎓](https://www.w3schools.com/nodejs/default.asp)
 
 Please install these tools on your system before proceeding:
 
