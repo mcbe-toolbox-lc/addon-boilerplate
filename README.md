@@ -4,6 +4,9 @@
 > This template is intended for development on Windows or Linux.
 > If you're developing on a platform other than those, please look elsewhere.
 
+> [!TIP]
+> Cheatsheet can be found [here](./CHEATSHEET.md).
+
 Feel free to use this template! No credit is required. 💝
 
 ## Introduction
