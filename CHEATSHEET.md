@@ -28,7 +28,7 @@
 ## Cleaning build output
 
 ```bash
-pnpm run clean # This will delete the build/ folder
+pnpm run clean # This will delete the build/ folder if it exists
 ```
 
 ## Installing a package under the scope `@minecraft`
