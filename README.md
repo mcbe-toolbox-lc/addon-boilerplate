@@ -91,6 +91,12 @@ If you understand these, things should be easier to understand:
     pnpm dotenv -v VERSION=0.6.9 -- pnpm run build
     ```
 
+7.  Do whatever you want
+
+    You might want to delete `README.md` (this file) and `CHEATSHEET.md`.
+
+    Happy coding! 👋
+
 ## Cheatsheet
 
 Cheatsheet can be found [here](./CHEATSHEET.md).
