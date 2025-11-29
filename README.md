@@ -31,6 +31,8 @@ Important prior knowledge (optional):
 
 Cheatsheet can be found [here](./CHEATSHEET.md).
 
+Check [other repositories from us](https://github.com/orgs/mcbe-toolbox-lc/repositories)!
+
 <hr/>
 
 # Untitled Add-on
