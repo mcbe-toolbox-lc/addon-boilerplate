@@ -29,6 +29,8 @@ Important prior knowledge (optional):
 - JavaScript - [Tutorial by W3Schools 🎓](https://www.w3schools.com/js/)
 - Node.js - [Tutorial by W3Schools 🎓](https://www.w3schools.com/nodejs/default.asp)
 
+**Don't forget to review and edit [the build script](./scripts/build.ts) to fit your needs.**
+
 Cheatsheet can be found [here](./CHEATSHEET.md).
 
 Check [other repositories from us](https://github.com/orgs/mcbe-toolbox-lc/repositories)!
