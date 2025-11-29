@@ -50,3 +50,36 @@ pnpm upgrade @minecraft/server@2.3.0
 ```
 
 Don't forget to edit the build script accordingly.
+
+## Item Catalog in JSON5
+
+[Crafting Item Catalog](https://learn.microsoft.com/en-us/minecraft/creator/documents/craftingitemcatalogdocumentation?view=minecraft-bedrock-stable)
+is the way to define custom item groups.
+
+Create the file `src/bp/item_catalog/crafting_item_catalog.json5`.
+
+Example:
+
+```json5
+{
+  format_version: "1.21.60",
+  "minecraft:crafting_items_catalog": {
+    categories: [
+      {
+        category_name: "construction",
+        groups: [
+          {
+            group_identifier: {
+              icon: "Item ID",
+              name: "Group ID",
+            },
+            items: [
+              // Custom item identifiers
+            ],
+          },
+        ],
+      },
+    ],
+  },
+}
+```
