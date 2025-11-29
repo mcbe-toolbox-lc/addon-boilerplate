@@ -104,7 +104,7 @@ if (isDev) {
 	bpTargetDirs.push("build/dev/bp");
 	rpTargetDirs.push("build/dev/rp");
 	bpTargetDirs.push(path.join(devBehaviorPacksDir!, `${addonNameSlug}-bp-dev`));
-	bpTargetDirs.push(path.join(devResourcePacksDir!, `${addonNameSlug}-rp-dev`));
+	rpTargetDirs.push(path.join(devResourcePacksDir!, `${addonNameSlug}-rp-dev`));
 } else {
 	const targetPathPrefix = `build/${versionLabel}`;
 
