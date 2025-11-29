@@ -63,8 +63,9 @@ If you understand these, things should be easier to understand:
 
 5.  Review and edit `scripts/build.ts`
 
-    You probably want to change the values of `addonNameLabel`, `addonNameSlug`, and pack manifest
-    object properties.
+    ⚠️ **You MUST change the values of the `uuids` object!**
+
+    Also you probably want to change the values of `addonNameLabel`, `addonNameSlug`, and manifests.
 
 6.  Build
 
