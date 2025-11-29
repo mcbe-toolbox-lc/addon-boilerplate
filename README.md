@@ -120,25 +120,31 @@ Please install these software on your system before proceeding:
 
 ### Build
 
-Build in development mode.
-Processed packs will be copied into the locations you specified in `.env`.
+After a build operation is complete, you can find the output in the `build/` folder.
 
-```bash
-pnpm run build:dev
-```
+- Development build
 
-Build in development mode and watch.
-Processed packs will be copied into the locations you specified in `.env`.
+  Processed packs will be copied into the locations you specified in `.env`.
 
-The build script will keep watching for file changes in the background until terminated.
-When any file changes are detected, it will automatically rebuild.
+  ```bash
+  pnpm run build:dev
+  ```
 
-```bash
-pnpm run build:dev:watch
-```
+- Development build + watch
 
-Create non-development build with version _0.6.9_.
+  Processed packs will be copied into the locations you specified in `.env`.
 
-```bash
-pnpm dotenv -v VERSION=0.6.9 -- pnpm run build
-```
+  The build script will keep watching for file changes in the background until terminated.
+  When any file changes are detected, it will automatically rebuild.
+
+  ```bash
+  pnpm run build:dev:watch
+  ```
+
+- Non-development build
+
+  Create a non-development build version _0.6.9_.
+
+  ```bash
+  pnpm dotenv -v VERSION=0.6.9 -- pnpm run build
+  ```
