@@ -22,7 +22,6 @@ const addonNameSlug = "untitled-addon";
 const addonNameLabel = "Untitled Add-on";
 const addonNameLabelWithVersion = `${addonNameLabel} ${isDev ? "DEV" : versionLabel}`
 const minEngineVersion = [1, 21, 110];
-const minecraftPackageVersions = builder.getMinecraftPackageVersions(packageConfig);
 
 // https://www.uuidgenerator.net/version4
 const uuids = {
@@ -64,12 +63,8 @@ const bpManifest = {
 		},
 		{
 			module_name: "@minecraft/server",
-			version: minecraftPackageVersions["@minecraft/server"].replace("^", ""),
+			version: "2.2.0", // Don't forget to change this when you update the package
 		},
-		// {
-		// 	module_name: "@minecraft/server-ui",
-		// 	version: minecraftPackageVersions["@minecraft/server-ui"].replace("^", ""),
-		// },
 	],
 };
 
