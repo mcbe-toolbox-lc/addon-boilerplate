@@ -1,2 +1,2 @@
-# Force all text files to have LF endings in the repository
-* text=lf
+# Auto-detect text files and enforce LF line endings on all platforms
+* text=auto eol=lf
