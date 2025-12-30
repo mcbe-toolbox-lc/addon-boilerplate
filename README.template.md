@@ -16,15 +16,15 @@ No description.
 
 1. Download an archive file with the `.zip` extension for the version you want.
 
-   ⚠️ Do not download from the big green “Code” button on GitHub.
-   Instead, check the release files.
+   :warning: Do not download from the big green “Code” button on GitHub. Instead, check the release
+   files.
 
-   ⚠️ Zip file may not be available. In that case, download the file the `.mcaddon` extension and
-   change its file extension to `.zip`.
+   :warning: Zip file may not be available. In that case, download the file the `.mcaddon` extension
+   and change its file extension to `.zip`.
 
-3. Open your file explorer app and find the file you downloaded in step 1.
-4. Extract the zip file.
-5. Copy and paste the extracted pack folder(s) into appropriate locations.
+2. Open your file explorer app and find the file you downloaded in step 1.
+3. Extract the zip file.
+4. Copy and paste the extracted pack folder(s) into appropriate locations.
 
    You need to know where the `com.mojang` folder is. It heavily depends on what platform
    your device is on.
@@ -41,8 +41,8 @@ No description.
 
    Resource pack must be copied into either `resource_packs` or `development_resource_packs`.
 
-6. Add the installed pack(s) to your (new) world.
-7. Done!
+5. Add the installed pack(s) to your (new) world.
+6. Done!
 
 ## Installation (for developers)
 
