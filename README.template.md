@@ -49,8 +49,6 @@ No description.
 > [!IMPORTANT]
 > Mobile platforms are not supported.
 
-Cheatsheet for developers can be found [here](./CHEATSHEET.md).
-
 ### Prerequisites
 
 Please install these software on your system before proceeding:
