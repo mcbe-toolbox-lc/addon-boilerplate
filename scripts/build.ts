@@ -1,45 +1,62 @@
 import * as builder from "@mcbe-toolbox-lc/builder";
-import packageConfig from "../package.json" with { type: "json" };
 import path from "node:path";
 
-// Important environment variables
+// ===========================================================================
+// ENVIRONMENT VARIABLES & SETUP
+// ===========================================================================
+
+// This script relies on environment variables injected by `dotenv-cli`.
+// In your package.json, the build commands should look like:
+// "build:dev": "dotenv -v DEV=1 -- tsx scripts/build.ts"
+//
+// This reads the `.env` file and makes variables (like DEV_BEHAVIOR_PACKS_DIR)
 
 const isDev = Boolean(builder.getEnv("DEV"));
+const shouldWatch = Boolean(builder.getEnv("WATCH")); // If true, rebuilds on file changes
 
-const version = builder.getEnvWithFallback("VERSION", "0.0.1");
-const versionArray = builder.parseVersionString(version); // e.g., [0, 0, 1]
-const versionLabel = "v" + versionArray.join("."); // e.g., "v0.0.1"
+// ===========================================================================
+// PROJECT CONFIGURATION
+// ===========================================================================
 
-const shouldWatch = Boolean(builder.getEnv("WATCH")); // Whether to watch for file changes and rebuild
+const addonConfig = {
+	name: "Untitled Add-on",
+	slug: "untitled-addon", // Used for file names
+	minEngineVersion: [1, 21, 110], // Minimum Minecraft version required
+};
 
-// Manifest is defined similarly to the traditional method:
-// https://learn.microsoft.com/en-us/minecraft/creator/reference/content/addonsreference/packmanifest?view=minecraft-bedrock-stable
-//
-// Except that we have the power of scripting here!
-// These manifest objects are later stringified to JSON.
+// Version handling: Default to 0.0.1 if VERSION env var is missing
+const versionRaw = builder.getEnvWithFallback("VERSION", "0.0.1");
+const versionArray = builder.parseVersionString(versionRaw); // [0, 0, 1]
+const versionLabel = "v" + versionArray.join("."); // "v0.0.1"
 
-const addonNameSlug = "untitled-addon";
-const addonNameLabel = "Untitled Add-on";
-const addonNameLabelWithVersion = `${addonNameLabel} ${isDev ? "DEV" : versionLabel}`
-const minEngineVersion = [1, 21, 110];
+// Dynamic Label: Adds "DEV" to the name in-game when in development mode
+const displayName = `${addonConfig.name} ${isDev ? "DEV" : versionLabel}`;
 
-// https://www.uuidgenerator.net/version4
+// Unique identifiers for the pack modules.
+// Generate new ones for every new project: https://www.uuidgenerator.net/version4
 const uuids = {
 	bpHeader: "7f519716-66c1-4d1c-9bb5-dee36e2cbb6e",
 	bpDataModule: "c30672bb-446a-458f-95ed-3b8a6e17c999",
-	bpScriptsModule: "9ca92e58-0e77-4117-a0fb-44484dd1418f", // Should match the "targetModuleUuid" field in .vscode/launch.json
+	bpScriptsModule: "9ca92e58-0e77-4117-a0fb-44484dd1418f", // Matches "targetModuleUuid" in .vscode/launch.json
 	rpHeader: "74c625fe-e814-4e85-a845-4018c1741ac5",
 	rpResourcesModule: "2f48f6f5-e145-4643-810d-77531a50e249",
 } as const;
 
+// ===========================================================================
+// MANIFEST DEFINITIONS
+// ===========================================================================
+
+// Manifests are defined similarly to the traditional method.
+// Except that we have the power of scripting!
+
 const bpManifest = {
 	format_version: 2,
 	header: {
-		name: addonNameLabelWithVersion,
+		name: displayName,
 		description: "No description.",
 		uuid: uuids.bpHeader,
 		version: versionArray,
-		min_engine_version: minEngineVersion,
+		min_engine_version: addonConfig.minEngineVersion,
 	},
 	modules: [
 		{
@@ -52,18 +69,17 @@ const bpManifest = {
 			type: "script",
 			uuid: uuids.bpScriptsModule,
 			version: versionArray,
-			entry: "scripts/index.js",
+			entry: "scripts/index.js", // The file result of the bundle process
 		},
 	],
 	dependencies: [
 		{
-			// Resource pack dependency
-			uuid: uuids.rpHeader,
+			uuid: uuids.rpHeader, // Link to Resource Pack
 			version: versionArray,
 		},
 		{
 			module_name: "@minecraft/server",
-			version: "2.2.0", // Don't forget to change this when you update the package
+			version: "2.2.0", // UPDATE THIS when you update the corresponding npm package
 		},
 	],
 };
@@ -71,11 +87,11 @@ const bpManifest = {
 const rpManifest = {
 	format_version: 2,
 	header: {
-		name: addonNameLabelWithVersion,
+		name: displayName,
 		description: "No description.",
 		uuid: uuids.rpHeader,
 		version: versionArray,
-		min_engine_version: minEngineVersion,
+		min_engine_version: addonConfig.minEngineVersion,
 	},
 	modules: [
 		{
@@ -84,35 +100,47 @@ const rpManifest = {
 			version: versionArray,
 		},
 	],
-	capabilities: ["pbr"], // Adding PBR capability is a good practice even if you don't add PBR textures
+	// "pbr" enables Physically Based Rendering support (texture sets)
+	// https://learn.microsoft.com/en-us/minecraft/creator/documents/vibrantvisuals/pbroverview?view=minecraft-bedrock-stable
+	capabilities: ["pbr"],
 };
 
-// Define build target paths
+// ===========================================================================
+// BUILD OUTPUT PATHS
+// ===========================================================================
 
 const bpTargetDirs: string[] = [];
 const rpTargetDirs: string[] = [];
 const archiveOptions: builder.ArchiveOptions[] = [];
 
 if (isDev) {
-	const devBehaviorPacksDir = builder.getEnvRequired("DEV_BEHAVIOR_PACKS_DIR");
-	const devResourcePacksDir = builder.getEnvRequired("DEV_RESOURCE_PACKS_DIR");
-
+	// DEVELOPMENT MODE
+	// 1. Output to a local 'build' folder for inspection
 	bpTargetDirs.push("build/dev/bp");
 	rpTargetDirs.push("build/dev/rp");
-	bpTargetDirs.push(path.join(devBehaviorPacksDir!, `${addonNameSlug}-bp-dev`));
-	rpTargetDirs.push(path.join(devResourcePacksDir!, `${addonNameSlug}-rp-dev`));
-} else {
-	const targetPathPrefix = `build/${versionLabel}`;
 
+	// 2. Output directly to the Minecraft's development pack folders (defined in .env)
+	const devBpDir = builder.getEnvRequired("DEV_BEHAVIOR_PACKS_DIR");
+	const devRpDir = builder.getEnvRequired("DEV_RESOURCE_PACKS_DIR");
+
+	bpTargetDirs.push(path.join(devBpDir!, `${addonConfig.slug}-bp-dev`));
+	rpTargetDirs.push(path.join(devRpDir!, `${addonConfig.slug}-rp-dev`));
+} else {
+	// PRODUCTION MODE
+	// 1. Output to a versioned build folder
+	const targetPathPrefix = `build/${versionLabel}`;
 	bpTargetDirs.push(`${targetPathPrefix}/bp`);
 	rpTargetDirs.push(`${targetPathPrefix}/rp`);
 
-	const archivePath = path.join(targetPathPrefix, `${addonNameSlug}-${versionLabel}`);
+	// 2. Create .mcaddon and .zip archives for distribution
+	const archivePath = path.join(targetPathPrefix, `${addonConfig.slug}-${versionLabel}`);
 	archiveOptions.push({ outFile: `${archivePath}.mcaddon` });
 	archiveOptions.push({ outFile: `${archivePath}.zip` });
 }
 
-// Create a configuration object that will be passed to the build system
+// ===========================================================================
+// EXECUTION
+// ===========================================================================
 
 const config: builder.ConfigInput = {
 	behaviorPack: {
@@ -120,22 +148,20 @@ const config: builder.ConfigInput = {
 		targetDir: bpTargetDirs,
 		manifest: bpManifest,
 		scripts: {
-			entry: "src/bp/scripts/index.ts",
-			bundle: true,
-			sourceMap: isDev,
+			entry: "src/bp/scripts/index.ts", // Your main TypeScript file
+			bundle: true, // Bundles all imports into a single file
+			sourceMap: isDev, // Generates .map files for debugging in VS Code
 		},
 	},
 	resourcePack: {
 		srcDir: "src/rp",
 		targetDir: rpTargetDirs,
 		manifest: rpManifest,
-		generateTextureList: true,
+		generateTextureList: true, // Automatically updates texture_list.json
 	},
 	watch: shouldWatch,
 	archive: archiveOptions,
-	// logLevel: "debug",
+	// logLevel: "debug", // Uncomment if you need more logs
 };
-
-// Build!
 
 await builder.build(config);
