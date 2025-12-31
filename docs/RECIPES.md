@@ -46,3 +46,57 @@ To upgrade `@minecraft/server` to `2.4.0`, run:
 ```bash
 pnpm upgrade @minecraft/server@2.4.0
 ```
+
+## :clipboard: JSON5
+
+[JSON5](https://json5.org/) is an extension to the popular JSON file format that aims to be easier
+to write and maintain by hand.
+
+<details>
+  <summary><strong>Comparison</strong></summary>
+
+JSON:
+
+```json
+{
+  // Tedious amount of double quotes...
+  "resource_pack_name": "vanilla",
+  "texture_name": "atlas.terrain",
+  "padding": 8,
+  "num_mip_levels": 4,
+  "texture_data": {
+    "copper_ore": {
+      "textures": "textures/blocks/copper_ore"
+    },
+    "short_grass": {
+      "textures": "textures/blocks/tallgrass"
+    } // No trailing comma allowed...
+  }
+}
+```
+
+JSON5:
+
+```json5
+{
+  // No double quotes are needed for keys!
+  resource_pack_name: "vanilla",
+  texture_name: "atlas.terrain",
+  padding: 8,
+  num_mip_levels: 4,
+  texture_data: {
+    copper_ore: {
+      textures: "textures/blocks/copper_ore",
+    },
+    short_grass: {
+      textures: "textures/blocks/tallgrass",
+    }, // Trailing comma allowed!
+  },
+}
+```
+
+</details>
+
+Perfect for files like `terrain_texture.json` and `crafting_item_catalog.json`!
+
+JSON5 files in source code are be converted to plain JSON in build.
