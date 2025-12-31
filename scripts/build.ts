@@ -20,9 +20,10 @@ const shouldWatch = Boolean(builder.getEnv("WATCH")); // If true, rebuilds on fi
 
 const addonConfig = {
 	name: "Untitled Add-on",
+	description: "No description.",
 	slug: "untitled-addon", // Used for file names
 	minEngineVersion: [1, 21, 110], // Minimum Minecraft version required
-};
+} as const;
 
 // Version handling: Default to 0.0.1 if VERSION env var is missing
 const versionRaw = builder.getEnvWithFallback("VERSION", "0.0.1");
@@ -53,7 +54,7 @@ const bpManifest = {
 	format_version: 2,
 	header: {
 		name: displayName,
-		description: "No description.",
+		description: addonConfig.description,
 		uuid: uuids.bpHeader,
 		version: versionArray,
 		min_engine_version: addonConfig.minEngineVersion,
@@ -74,12 +75,15 @@ const bpManifest = {
 	],
 	dependencies: [
 		{
-			uuid: uuids.rpHeader, // Link to Resource Pack
+			uuid: uuids.rpHeader, // Depend on the resource pack
 			version: versionArray,
 		},
+
+		// Scripting API dependencies.
+		// UPDATE THESE when you update the corresponding npm packages!
 		{
 			module_name: "@minecraft/server",
-			version: "2.2.0", // UPDATE THIS when you update the corresponding npm package
+			version: "2.2.0",
 		},
 	],
 };
@@ -88,7 +92,7 @@ const rpManifest = {
 	format_version: 2,
 	header: {
 		name: displayName,
-		description: "No description.",
+		description: addonConfig.description,
 		uuid: uuids.rpHeader,
 		version: versionArray,
 		min_engine_version: addonConfig.minEngineVersion,
@@ -114,7 +118,7 @@ const rpTargetDirs: string[] = [];
 const archiveOptions: builder.ArchiveOptions[] = [];
 
 if (isDev) {
-	// DEVELOPMENT MODE
+	// DEVELOPMENT BUILD MODE
 	// 1. Output to a local 'build' folder for inspection
 	bpTargetDirs.push("build/dev/bp");
 	rpTargetDirs.push("build/dev/rp");
@@ -126,7 +130,7 @@ if (isDev) {
 	bpTargetDirs.push(path.join(devBpDir!, `${addonConfig.slug}-bp-dev`));
 	rpTargetDirs.push(path.join(devRpDir!, `${addonConfig.slug}-rp-dev`));
 } else {
-	// PRODUCTION MODE
+	// RELEASE BUILD MODE
 	// 1. Output to a versioned build folder
 	const targetPathPrefix = `build/${versionLabel}`;
 	bpTargetDirs.push(`${targetPathPrefix}/bp`);
